@@ -1,0 +1,35 @@
+{
+  "name": "react-native-guide-mark",
+  "version": "1.0.0",
+  "description": "React Native Guide Mark / Coach Mark to guide first time app users ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ltsharma/react-native-guide-mark.git"
+  },
+  "keywords": [
+    "react-native",
+    "react-native-component",
+    "ios",
+    "android",
+    "ui",
+    "accessibility",
+    "coachmark",
+    "coachmask",
+    "guide",
+    "guidemark",
+    "guidemask"
+  ],
+  "author": "Lakshmeesha <ltsharma24@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ltsharma/react-native-guide-mark/issues"
+  },
+  "homepage": "https://github.com/ltsharma/react-native-guide-mark#readme",
+  "dependencies": {
+    "prop-types": "^15.5.10"
+  }
+}

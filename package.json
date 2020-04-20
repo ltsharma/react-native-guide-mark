@@ -1,6 +1,6 @@
 {
   "name": "react-native-guide-mark",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React Native Guide Mark / Coach Mark to guide first time app users ",
   "main": "index.js",
   "scripts": {

@@ -1,7 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import PropTypes from "prop-types";
-
+import {  Text, StyleSheet, TouchableOpacity } from "react-native";
 function RcButtonBright(props) {
   let {
     style,
@@ -17,17 +15,6 @@ function RcButtonBright(props) {
     </TouchableOpacity>
   );
 }
-RcButtonBright.prototype = {
-  active: PropTypes.bool,
-  title: PropTypes.string
-};
-RcButtonBright.defaultProps = {
-  event:{
-    name:null,
-      desc:null,
-      id:0
-  }
-};
 export default RcButtonBright;
 const styles = StyleSheet.create({
   btnContainer: {

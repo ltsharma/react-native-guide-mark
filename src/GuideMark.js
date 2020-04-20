@@ -184,8 +184,8 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     trainingDesc:{
-        fontSize: 14,
+        fontSize: 16,
         color: 'white',
-        fontWeight:"100",
+        fontWeight:"300",
     }
 })

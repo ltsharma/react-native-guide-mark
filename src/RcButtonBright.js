@@ -7,13 +7,13 @@ function RcButtonBright(props) {
     style,
     title,
     textStyle,
-    onPress,
+    onPress
   } = props;
   return (
     <TouchableOpacity style={
-      [inverted?styles.invertBrightBtn:styles.signInButtonContainer,style]
+      [styles.btnContainer,style]
     } onPress={onPress}>
-      <Text style={[inverted?styles.InvertedbrightBtnText:styles.brightBtnText, textStyle]}>{title}</Text>
+      <Text style={[styles.brightBtnText, textStyle]}>{title}</Text>
     </TouchableOpacity>
   );
 }
@@ -30,25 +30,13 @@ RcButtonBright.defaultProps = {
 };
 export default RcButtonBright;
 const styles = StyleSheet.create({
-    invertBrightBtn: {
-        borderColor: '#fff',
-        borderWidth: 1,
-        borderRadius: 22,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-  signInButtonContainer: {
+  btnContainer: {
       backgroundColor: '#e1e000',
       borderRadius: 22,
       alignItems: 'center',
       justifyContent: 'center'
 },
     brightBtnText: {
-      padding: 10,
-      paddingHorizontal:30
-  },
-    InvertedbrightBtnText: {
-      color:"#ffffff",
       padding: 10,
       paddingHorizontal:30
   }

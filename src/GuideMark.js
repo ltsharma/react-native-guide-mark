@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import RcButtonBright from './RcButtonBright'
 import Modal from 'react-native-modal';
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 const { width:WIDTH, height:HEIGHT } = Dimensions.get('screen');
 
 const MARK_DIMENSION = 150;
@@ -20,6 +20,8 @@ class GuideMark extends PureComponent{
     render() {
         const {
             title = null,
+            titleTextStyle = null,
+            descriptionStyle = null,
             description = null,
             onButtonPress = null,
             onMarkPress = null,
@@ -28,7 +30,9 @@ class GuideMark extends PureComponent{
             left = 0,
             top = 0,
             markSize = MARK_DIMENSION,
-            markImage = MARK_IMAGE
+            markImage = MARK_IMAGE,
+            maskBgColor=MASK_BG,
+            buttonElm=null
         } = this.props;
 
         //Percent calculation
@@ -54,13 +58,13 @@ class GuideMark extends PureComponent{
             flex: 0,
             width:WIDTH,
             height:xy[0],
-            backgroundColor:MASK_BG
+            backgroundColor:maskBgColor
         };
         let leftMask = {
             flex: 0,
             width:xy[1],
             height:markSize,
-            backgroundColor:MASK_BG
+            backgroundColor:maskBgColor
         };
         let markImageStyle ={
             width:markSize,
@@ -70,13 +74,13 @@ class GuideMark extends PureComponent{
             flex: 0,
             width:WIDTH-markSize-xy[1],
             height:markSize,
-            backgroundColor:MASK_BG
+            backgroundColor:maskBgColor
         };
         let bottomMask = {
             flex: 0,
             width:WIDTH,
             height:HEIGHT-markSize-xy[0],
-            backgroundColor:MASK_BG
+            backgroundColor:maskBgColor
         };
 
         return (
@@ -105,18 +109,18 @@ class GuideMark extends PureComponent{
                 <View style={[ styles.trainingContainer, trainingContainerArranged ]} >
 
                     {   title &&
-                        <Text style={styles.trainingTitle}>
+                        <Text style={[styles.trainingTitle,titleTextStyle]}>
                             {title}
                         </Text>
                     }
                     {
                         description &&
-                        <Text style={[styles.trainingDesc,{textAlign: contentToCenter ? 'center' : contentToLeftEnd ? "left" : "right"}]}>
+                        <Text style={[styles.trainingDesc,{textAlign: contentToCenter ? 'center' : contentToLeftEnd ? "left" : "right"},descriptionStyle]}>
                             {description}
                         </Text>
                     }
                     {
-                        onButtonPress &&
+                       buttonElm?buttonElm: onButtonPress &&
                         <RcButtonBright
                             title={ buttonTitle||"GOT IT"}
                             style={{marginTop: 20}}
@@ -143,15 +147,15 @@ GuideMark.defaultProps = {
     markImage :MARK_IMAGE
 }
 
-GuideMark.prototype = {
-    onButtonPress : PropTypes.func,
-    onMarkPress : PropTypes.func,
-    visible : PropTypes.bool.isRequired,
-    markSize : PropTypes.number,
-    markImage : PropTypes.object,
-    left : PropTypes.oneOfType([PropTypes.string,PropTypes.number]).isRequired,
-    top : PropTypes.oneOfType([PropTypes.string,PropTypes.number]).isRequired
-}
+// GuideMark.prototype = {
+//     onButtonPress : PropTypes.func,
+//     onMarkPress : PropTypes.func,
+//     visible : PropTypes.bool.isRequired,
+//     markSize : PropTypes.number,
+//     markImage : PropTypes.object,
+//     left : PropTypes.oneOfType([PropTypes.string,PropTypes.number]).isRequired,
+//     top : PropTypes.oneOfType([PropTypes.string,PropTypes.number]).isRequired
+// }
 
 export default GuideMark;
 

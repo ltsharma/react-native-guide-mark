@@ -5,9 +5,31 @@
 
 This React Native module is for guiding the first time user throughout the app
   
+## Installation
+**Yarn**: `yarn add   react-native-guide-mark`
+**NPM**: `npm install react-native-guide-mark`
 
+## Example
+``` 
+...
+import {GuideMark} from  "react-native-guide-mark";
+...
+const App = () =>{
+	const [visible, setVisible] = React.useState(true)
+	return(
+		 <GuideMark 
+	        title = "Step 1"
+	        description = "This is the first step"
+	        visible = {visible}
+	        onButtonPress={()=>setVisible(false)}
+	        top={100}
+	        left={150}
+	      />
+	)
+}
+
+```
 ## Props
-
   
 |  Name |  Type  | Default  |     Description  |
 |-------|--------|----------|----------------------|

@@ -1,4 +1,5 @@
 
+
   
 
 # react-native-guide-mark
@@ -30,7 +31,14 @@ const App = () =>{
 	      />
 	)
 }
+```
 
+```json
+{
+	fontSize: 34, 
+	fontWeight: "bold",
+	color: 'white'
+}
 ```
 ## Props
   
@@ -38,9 +46,9 @@ const App = () =>{
 |-------|--------|----------|----------------------|
 | `visible` | Boolean | false | **true**:show \| **false**:hide the mask|
 | `title` | String | null | title of the mask|
-|`titleTextStyle`|Object|*{fontSize: 34, fontWeight: "bold",color: 'white'}*|Title text style|
+|`titleTextStyle`|Object|```{fontSize: 34, fontWeight: "bold",color: 'white'} ```|Title text style|
 | `description` | String | null | Description of mask|
-|`descriptionStyle`|Object|*{fontSize: 14,color: 'white',fontWeight:"100"}*|Description text style|
+|`descriptionStyle`|Object|```{fontSize: 14,color: 'white',fontWeight:"100"}```|Description text style|
 | `buttonTitle` | String | null | Title of the button (Built in button will be enabled only if `onButtonPress` is set with function)|
 |`onButtonPress` | Function | null | Event on button press|
 | `onMarkPress` | Function | null | Event on press of marked spot|

@@ -10,10 +10,13 @@ This React Native module is for guiding the first time user throughout the app
 **NPM**: `npm install react-native-guide-mark`
 
 ## Example
-``` 
-...
+1. import react-native-guide-mark:
+```javascript 
 import {GuideMark} from  "react-native-guide-mark";
-...
+```
+
+2. create a guide mark mask:
+```javascript
 const App = () =>{
 	const [visible, setVisible] = React.useState(true)
 	return(

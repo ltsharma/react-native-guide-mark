@@ -1,6 +1,6 @@
 {
   "name": "react-native-guide-mark",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "React Native Guide Mark / Coach Mark to guide first time app users ",
   "main": "index.js",
   "scripts": {
@@ -32,10 +32,6 @@
   "dependencies": {
     "prop-types": "*",
     "react-native-modal": "*"
-  },
-  "peerDependencies": {
-    "react": "*",
-    "react-native": "*"
   },
   "devDependencies": {
     "metro-react-native-babel-preset": "^0.59.0"

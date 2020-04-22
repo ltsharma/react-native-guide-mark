@@ -33,14 +33,6 @@ const App = () =>{
 	)
 }
 ```
-
-```json
-{
-	fontSize: 34, 
-	fontWeight: "bold",
-	color: 'white'
-}
-```
 ## Props
   
 |  Name |  Type  | Default  |     Description  |

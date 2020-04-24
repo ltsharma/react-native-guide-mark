@@ -30,8 +30,7 @@
   },
   "homepage": "https://github.com/ltsharma/react-native-guide-mark#readme",
   "dependencies": {
-    "prop-types": "*",
-    "react-native-modal": "*"
+    "prop-types": "*"
   },
   "devDependencies": {
     "metro-react-native-babel-preset": "^0.59.0"

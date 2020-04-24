@@ -17,14 +17,14 @@ import {GuideMark} from  "react-native-guide-mark";
 const  App  = () =>{
 	const [visible, setVisible] = React.useState(true)
 	return(
-		<GuideMark
+	<GuideMark
 		title  =  "Step 1"
 		description  =  "This is the first step"
 		visible  =  {visible}
 		onButtonPress={()=>setVisible(false)}
 		top={100}
 		left={150}
-		/>
+	/>
 	)
 }
 ```

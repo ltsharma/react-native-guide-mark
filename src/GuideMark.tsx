@@ -1,64 +1,14 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, Dimensions, Image, Text, TouchableWithoutFeedback, Modal } from 'react-native';
-import RcButtonBright from './RcButtonBright';
+import GuideButton from './GuideButton';
+import { Props, LayoutHeight, ContentStyle, MaskStyle } from './types';
+
 const { width: WIDTH, height: HEIGHT } = Dimensions.get('screen');
-import PropTypes, { number, string } from 'prop-types';
 
 const MARK_DIMENSION = 150;
 const MARK_IMAGE = require('../assets/coach-mark.png');
 const MASK_BG = 'rgba(0,0,0,0.75)';
-
-interface Props {
-    title: string;
-    titleTextStyle: object;
-    description: string;
-    descriptionStyle: object;
-    onButtonPress: void;
-    onMarkPress: void;
-    buttonTitle: string;
-    visible: boolean;
-    left: any;
-    top: any;
-    markSize: number;
-    markImage: any;
-    maskBgColor: string;
-    buttonElm: any;
-    pointRef: any;
-}
-
-interface LayoutHeight {
-    nativeEvent: {
-        layout: {
-            height: number;
-        };
-    };
-}
-
-interface ContentStyle {
-    top: number;
-    left: number;
-    alignItems: string;
-}
-interface MaskStyle {
-    flex: number;
-    width: number;
-    height: number;
-    backgroundColor: string;
-}
-
-const propTypes = {
-    title: PropTypes.string,
-    description: PropTypes.string,
-    buttonTitle: PropTypes.string,
-    onButtonPress: PropTypes.func,
-    onMarkPress: PropTypes.func,
-    visible: PropTypes.bool.isRequired,
-    markSize: PropTypes.number,
-    markImage: PropTypes.object,
-    left: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    top: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-};
 
 const defaultProps = {
     title: null,
@@ -102,24 +52,23 @@ const styles = StyleSheet.create({
     },
 });
 
-const GuideMark = (props: Props): object => {
-    const {
-        title = null,
-        titleTextStyle = null,
-        descriptionStyle = null,
-        description = null,
-        onButtonPress = null,
-        onMarkPress = null,
-        buttonTitle = null,
-        visible = false,
-        left = '50%',
-        top = '50%',
-        markSize = 0,
-        markImage = MARK_IMAGE,
-        maskBgColor = MASK_BG,
-        buttonElm = null,
-        pointRef = null,
-    } = props;
+function GuideMark({
+    title = null,
+    titleTextStyle,
+    descriptionStyle,
+    description,
+    onButtonPress,
+    onMarkPress,
+    buttonTitle,
+    visible = false,
+    left = '50%',
+    top = '50%',
+    markSize = 0,
+    markImage = MARK_IMAGE,
+    maskBgColor = MASK_BG,
+    buttonElm = null,
+    pointRef = null,
+}: Props): React.ReactNode {
     const [refElmDimention, setrefElmDimention] = useState({ fx: 0, fy: 0, width: 0, height: 0, px: 0, py: 0 });
     const [_top, _settop] = useState(top);
     const [_left, _setleft] = useState(left);
@@ -172,7 +121,6 @@ const GuideMark = (props: Props): object => {
 
     //Content arrangement
     const xy = [nTop, nLeft];
-
     const contentToLeftEnd = xy[1] < WIDTH / 6 && xy[1] + _markSize < WIDTH / 2;
     const contentToRightEnd = xy[1] + _markSize > (WIDTH * 5) / 6 && xy[1] + 10 > WIDTH / 6 && !contentToLeftEnd;
     const contentToCenter = xy[1] < (WIDTH * 4) / 5 - _markSize && !contentToLeftEnd;
@@ -253,7 +201,7 @@ const GuideMark = (props: Props): object => {
                 {buttonElm
                     ? buttonElm
                     : onButtonPress && (
-                          <RcButtonBright
+                          <GuideButton
                               title={buttonTitle || 'GOT IT'}
                               style={{ marginTop: 20 }}
                               onPress={onButtonPress}
@@ -262,10 +210,10 @@ const GuideMark = (props: Props): object => {
             </View>
         </Modal>
     );
-};
+}
 
 GuideMark.defaultProps = defaultProps;
 
-GuideMark.prototype = propTypes;
+// GuideMark.prototype = propTypes;
 
 export default GuideMark;

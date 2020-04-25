@@ -27,8 +27,8 @@ const GuideMark =(
         onMarkPress = null,
         buttonTitle = null,
         visible = false,
-        left = 0,
-        top = 0,
+        left = "50%",
+        top = "50%",
         markSize = 0,
         markImage = MARK_IMAGE,
         maskBgColor=MASK_BG,
@@ -44,13 +44,13 @@ const GuideMark =(
     const [contentHeight,setcontentHeight] = useState(100);
     
     React.useLayoutEffect(() => {
-        if(pointRef && pointRef.hasOwnProperty("current")){
+        if(pointRef && pointRef.hasOwnProperty("current") && pointRef.current){
                 pointRef.current.measureInWindow((fx, fy, width, height, px, py) => {
                     if(refElmDimention?.fx!==fx && refElmDimention?.fy!==fy){
                         setrefElmDimention({fx, fy, width, height, px, py});
                     }
                     if(markSize===0){
-                        let ltop = fy-((width/2)-15)
+                        let ltop = height>=width?fy:fy-((width/2)-15)
                         if(_left!==fx || _top!==ltop){
                             _setmarkSize( Math.max(width,height));
                             _settop(ltop);
@@ -74,7 +74,6 @@ const GuideMark =(
 
     const trainingOnLayout = ({nativeEvent: { layout: {x, y, width, height}}} ) =>{
         setcontentHeight(height);
-        console.log({contentHeight:height})
     }
 
     //Percent calculation
@@ -83,15 +82,16 @@ const GuideMark =(
 
     //Content arrangement
     let xy = [nTop,nLeft];
-    let contentToLeftEnd = xy[1] < (WIDTH/5) && _markSize<( (WIDTH*2)/3);
-    let contentToCenter = (xy[1] < ((WIDTH*4/5)-_markSize)) && !contentToLeftEnd;
+
+    let contentToLeftEnd = xy[1] < (WIDTH/6) && xy[1]+_markSize < WIDTH/2 ;
+    let contentToRightEnd = (xy[1] + _markSize > WIDTH*5/6) && (xy[1] + 10 > (WIDTH/6))  && !contentToLeftEnd ;
+    let contentToCenter = (xy[1] < (((WIDTH*4)/5)-_markSize)) && !contentToLeftEnd;
     let contentOnTop =  (HEIGHT - (_markSize + xy[0]))>contentHeight;
+
     let trainingContainerArranged = {
         top: contentOnTop? xy[0] + _markSize : (xy[0] - contentHeight),
-        alignItems:contentToCenter?'center':contentToLeftEnd?"flex-start":"flex-end",
-        left: contentToCenter?
-            (WIDTH-300)/2: !contentToLeftEnd?
-                WIDTH-315 : 15
+        alignItems:contentToRightEnd?"flex-end":contentToLeftEnd?"flex-start":"center",
+        left:contentToRightEnd?WIDTH-315:contentToLeftEnd?15:(WIDTH-300)/2
     };
     //MaskStyle
     let topMask = {

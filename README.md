@@ -57,8 +57,7 @@ export const App = () => {
                 pointRef={buttonRef} //3. Passing ref of pointing element to guide mark
             />
             <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                <View style={{ paddingHorizontal: 30 }} ref={buttonRef}>
-                    {' '}
+                <View style={{ paddingHorizontal: 30 }} ref={buttonRef} collapsable={false}>
                     {/* 2. assign ref to required pointing element */}
                     <Button
                         title="Click Here"
@@ -74,8 +73,10 @@ export const App = () => {
 ```
 
 1. Create a ref with `userRef`.
-2. assign that ref to required `View` element.
+2. assign that ref to required `View` element and add `collapsable={false}` to it.
 3. pass the ref to `pointRef` prop.
+
+**Note:** Make sure to add `collapsable={false}` to the View element, otherwise ref measurement will not be available in Android.
 
 ## Props
 

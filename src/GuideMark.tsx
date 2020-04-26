@@ -1,6 +1,16 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import React, { useState } from 'react';
-import { View, StyleSheet, Dimensions, Image, Text, TouchableWithoutFeedback, Modal } from 'react-native';
+import {
+    View,
+    StyleSheet,
+    Dimensions,
+    Image,
+    Text,
+    TouchableWithoutFeedback,
+    Modal,
+    Animated,
+    Easing,
+} from 'react-native';
 import GuideButton from './GuideButton';
 import { Props, LayoutHeight, ContentStyle, MaskStyle } from './types';
 
@@ -57,51 +67,60 @@ function GuideMark({
     titleTextStyle,
     descriptionStyle,
     description,
-    onButtonPress,
+    onButtonPress = null,
     onMarkPress,
-    buttonTitle,
+    buttonTitle = null,
     visible = false,
     left = '50%',
     top = '50%',
-    markSize = 0,
+    markSize = null,
     markImage = MARK_IMAGE,
     maskBgColor = MASK_BG,
     buttonElm = null,
     pointRef = null,
-}: Props): React.ReactNode {
+    index = 0,
+    animatedEasing = Easing.ease,
+}: Props): React.ReactElement {
     const [refElmDimention, setrefElmDimention] = useState({ fx: 0, fy: 0, width: 0, height: 0, px: 0, py: 0 });
-    const [_top, _settop] = useState(top);
-    const [_left, _setleft] = useState(left);
+    const [_top, _settop] = useState(0);
+    const [_left, _setleft] = useState(0);
     const [_markSize, _setmarkSize] = useState(markSize || MARK_DIMENSION);
     const [_maskBgColor, _setmaskBgColor] = useState('rgba(255,255,255,0)');
     const [contentHeight, setcontentHeight] = useState(100);
-
-    React.useLayoutEffect((): void => {
-        pointRef?.current?.measureInWindow((fx = 0, fy = 0, width = 0, height = 0, px = 0, py = 0) => {
-            if (refElmDimention?.fx !== fx && refElmDimention?.fy !== fy) {
-                setrefElmDimention({ fx, fy, width, height, px, py });
-            }
-
-            if (width == 0 || height == 0) {
-                console.warn(
-                    'Make sure View element which have ref has props collapsable={false}. Android measurement will not work without this.',
-                );
-            }
-            if (markSize === 0) {
-                const ltop = height >= width ? fy : fy - (width / 2 - 15);
-                if (_left !== fx || _top !== ltop) {
-                    _setmarkSize(Math.max(width, height, MARK_DIMENSION));
-                    _settop(ltop);
-                    _setleft(fx);
+    React.useEffect((): void => {
+        setTimeout(() => {
+            pointRef?.current?.measureInWindow((fx = 0, fy = 0, width = 0, height = 0, px = 0, py = 0) => {
+                if (refElmDimention?.fx !== fx && refElmDimention?.fy !== fy) {
+                    setrefElmDimention({ fx, fy, width, height, px, py });
                 }
-            } else {
-                if (_left !== fx - 25 || _top !== fy - 60) {
-                    _settop(fy - 60);
-                    _setleft(fx - 25);
+
+                if (width == 0 || height == 0) {
+                    console.warn(
+                        'Make sure View element which have ref has props collapsable={false}. Android measurement will not work without this.',
+                    );
                 }
-            }
-        });
-    });
+                if (!markSize) {
+                    const ltop = height >= width ? fy : fy - (width / 2 - 15);
+                    if (_left !== fx || _top !== ltop) {
+                        _setmarkSize(Math.max(width, height, MARK_DIMENSION));
+                        _settop(ltop);
+                        _setleft(fx);
+                    }
+                } else {
+                    if (_left !== fx - 25 || _top !== fy - 60) {
+                        _settop(fy - 60);
+                        _setleft(fx - 25);
+                    }
+                }
+            });
+        }, index * 1 + 50);
+
+        if (!pointRef) {
+            _setleft(left);
+            _settop(top);
+            _setmarkSize(markSize);
+        }
+    }, [index]);
 
     const onLoad = (): void => {
         _setmaskBgColor(maskBgColor);
@@ -118,7 +137,6 @@ function GuideMark({
     //Percent calculation
     const nLeft = typeof _left === 'string' ? (WIDTH - _markSize) * (parseFloat(_left) / 100) : _left;
     const nTop = typeof _top === 'string' ? (HEIGHT - _markSize) * (parseFloat(_top) / 100) : _top;
-
     //Content arrangement
     const xy = [nTop, nLeft];
     const contentToLeftEnd = xy[1] < WIDTH / 6 && xy[1] + _markSize < WIDTH / 2;
@@ -131,36 +149,57 @@ function GuideMark({
         alignItems: contentToRightEnd ? 'flex-end' : contentToLeftEnd ? 'flex-start' : 'center',
         left: contentToRightEnd ? WIDTH - 315 : contentToLeftEnd ? 15 : (WIDTH - 300) / 2,
     };
+
+    const [xy0] = useState(new Animated.Value(0));
+    const [xy1] = useState(new Animated.Value(0));
+    const [__markSize] = useState(new Animated.Value(_markSize));
+
+    Animated.timing(xy0, {
+        toValue: xy[0],
+        duration: 300,
+        easing: Easing.sin,
+    }).start();
+    Animated.timing(xy1, {
+        toValue: xy[1],
+        duration: 200,
+        easing: Easing.sin,
+    }).start();
+    Animated.timing(__markSize, {
+        toValue: _markSize,
+        duration: 200,
+        easing: Easing.ease,
+    }).start();
+
     //MaskStyle
     const topMask: MaskStyle = {
         flex: 0,
         width: WIDTH,
-        height: xy[0],
+        height: xy0,
         backgroundColor: _maskBgColor,
     };
     const leftMask: MaskStyle = {
         flex: 0,
-        width: xy[1],
-        height: _markSize,
+        width: xy1,
+        height: __markSize,
         backgroundColor: _maskBgColor,
     };
     const markImageStyle: MaskStyle = {
         flex: 1,
-        width: _markSize,
-        height: _markSize,
+        width: __markSize,
+        height: __markSize,
         backgroundColor: 'transparent',
     };
     const rightMask: MaskStyle = {
         flex: 0,
-        width: WIDTH - _markSize - xy[1],
-        height: _markSize,
+        width: Animated.subtract(Animated.subtract(WIDTH, __markSize), xy1),
+        height: __markSize,
         backgroundColor: _maskBgColor,
     };
 
     const bottomMask: MaskStyle = {
         flex: 0,
         width: WIDTH,
-        height: HEIGHT - _markSize - xy[0],
+        height: Animated.subtract(Animated.subtract(HEIGHT, __markSize), xy0),
         backgroundColor: _maskBgColor,
     };
 
@@ -174,15 +213,15 @@ function GuideMark({
             style={styles.modalStyle}
         >
             <View style={styles.coachContainer}>
-                <View style={topMask} />
+                <Animated.View style={topMask} />
                 <View style={styles.markRow}>
-                    <View style={leftMask} />
+                    <Animated.View style={leftMask} />
                     <TouchableWithoutFeedback onPress={onMarkPress}>
-                        <Image onLoad={onLoad} source={markImage} style={markImageStyle} />
+                        <Animated.Image onLoad={onLoad} source={markImage} style={markImageStyle} />
                     </TouchableWithoutFeedback>
-                    <View style={rightMask} />
+                    <Animated.View style={rightMask} />
                 </View>
-                <View style={bottomMask} />
+                <Animated.View style={bottomMask} />
             </View>
 
             <View style={[styles.trainingContainer, trainingContainerArranged]} onLayout={trainingOnLayout}>

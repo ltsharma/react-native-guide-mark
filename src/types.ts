@@ -47,6 +47,7 @@ export interface WizProps {
     children: React.ReactChildren;
     visible: boolean;
     onButtonPress: any;
+    onFinish: any;
 }
 
 //Button Interface

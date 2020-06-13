@@ -109,5 +109,6 @@ Here are the some cool tips how you can use it in better way to guide users
 #### Next up
 
 -   [x] Provide ref to element
--   [ ] Wizard
+-   [X] Wizard
 -   [ ] Custom hook (if its worthy of doing!)
+-   [ ] SVG marker
